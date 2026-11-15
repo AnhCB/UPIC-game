@@ -1458,15 +1458,22 @@ body.modal-open { overflow: hidden; }
 
 
 
-/* FINAL FIX: Completion popup must appear above the puzzle */
-#win-modal,
-#building-modal {
+
+/* U-PIC FIX: Force the completion popup above the puzzle */
+body > #win-modal {
     position: fixed !important;
-    z-index: 99999 !important;
-    isolation: isolate;
+    inset: 0 !important;
+    z-index: 20000 !important;
+    display: none;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
-#win-modal.open,
-#building-modal.open {
+body > #win-modal.open {
     display: flex !important;
 }
+
+body > #building-modal {
+    z-index: 20000 !important;
+}
+
