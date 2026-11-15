@@ -1457,23 +1457,13 @@ body.modal-open { overflow: hidden; }
 .tour-highlight { z-index: 2001 !important; }
 
 
-
-
-/* U-PIC FIX: Force the completion popup above the puzzle */
-body > #win-modal {
+/* FIX: Show completion reward above the puzzle overlay */
+#win-modal {
     position: fixed !important;
+    z-index: 1201 !important;
     inset: 0 !important;
-    z-index: 20000 !important;
-    display: none;
-    align-items: center !important;
-    justify-content: center !important;
 }
 
-body > #win-modal.open {
-    display: flex !important;
+#building-modal {
+    z-index: 1201 !important;
 }
-
-body > #building-modal {
-    z-index: 20000 !important;
-}
-
