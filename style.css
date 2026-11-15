@@ -1455,3 +1455,14 @@ body.modal-open { overflow: hidden; }
 #tour-card .tour-controls { display: flex !important; justify-content: space-between !important; gap: 12px !important; }
 #tour-card button { position: relative; z-index: 1; }
 .tour-highlight { z-index: 2001 !important; }
+
+
+/* Fix: Show the level completion popup above the puzzle overlay */
+#win-modal {
+    z-index: 1201 !important;
+}
+
+#building-modal,
+#settings-modal {
+    z-index: 1201 !important;
+}
