@@ -1457,12 +1457,16 @@ body.modal-open { overflow: hidden; }
 .tour-highlight { z-index: 2001 !important; }
 
 
-/* Fix: Show the level completion popup above the puzzle overlay */
-#win-modal {
-    z-index: 1201 !important;
+
+/* FINAL FIX: Completion popup must appear above the puzzle */
+#win-modal,
+#building-modal {
+    position: fixed !important;
+    z-index: 99999 !important;
+    isolation: isolate;
 }
 
-#building-modal,
-#settings-modal {
-    z-index: 1201 !important;
+#win-modal.open,
+#building-modal.open {
+    display: flex !important;
 }
