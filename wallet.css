@@ -39,16 +39,25 @@
   100% { opacity: 0; transform: translate(-50%, -60%) scale(.96); }
 }
 
-/* ---------- Launcher ---------- */
-.activity-launcher.wallet-launcher { border-color: #f0d27a; background: linear-gradient(180deg, #fff9e3, #fff1c2); font-weight: 850; }
-#map-page .activity-launcher .wallet-label { padding: 0 !important; background: none !important; color: inherit !important; font-size: inherit !important; }
-.wallet-launcher #wallet-count { padding: 1px 8px; border-radius: 999px; background: #123d70; color: #fff; font-size: 11px; }
+/* ---------- Launcher (floating on the map, top right) ---------- */
+#campus-map .wallet-launcher {
+  position: absolute; z-index: 5; top: 10px; right: 10px;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 10px 7px 12px; border: 2px solid #fff; border-radius: 999px;
+  background: linear-gradient(180deg, #fff9e3, #ffe9a6); color: #123d70;
+  box-shadow: 0 4px 14px rgb(18 61 112 / 25%);
+  font: inherit; font-size: 13px; font-weight: 850; line-height: 1; cursor: pointer;
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+#campus-map .wallet-launcher:hover { transform: translateY(-2px); box-shadow: 0 7px 18px rgb(18 61 112 / 30%); }
+#campus-map .wallet-launcher:focus-visible { outline: 3px solid #e7a900; outline-offset: 2px; }
+.wallet-launcher #wallet-count { padding: 3px 8px; border-radius: 999px; background: #123d70; color: #fff; font-size: 11px; }
 .wallet-launcher.bump { animation: walletBump .55s cubic-bezier(.3,1.7,.5,1); }
 @keyframes walletBump { 0% { transform: scale(1); } 40% { transform: scale(1.18) rotate(-3deg); } 100% { transform: scale(1); } }
 
 /* ---------- Wallet modal ---------- */
 .wallet-modal {
-  position: fixed; z-index: 11; inset: 0; display: none;
+  position: fixed; z-index: 1250; inset: 0; display: none;
   align-items: center; justify-content: center; padding: 20px;
   overflow-y: auto; background: rgb(10 32 56 / 66%); backdrop-filter: blur(7px);
 }
@@ -120,14 +129,12 @@
 .win-actions .wallet-win-open { flex: 1 1 100%; }
 
 /* Flying card + confetti */
-.wallet-flyer { position: fixed !important; z-index: 40; top: 0; left: 0; width: 200px; margin: 0; pointer-events: none; }
-.upic-confetti { position: fixed; z-index: 30; inset: 0; width: 100vw; height: 100vh; pointer-events: none; }
+.wallet-flyer { position: fixed !important; z-index: 1310; top: 0; left: 0; width: 200px; margin: 0; pointer-events: none; }
+.upic-confetti { position: fixed; z-index: 1300; inset: 0; width: 100vw; height: 100vh; pointer-events: none; }
 
 @media (max-width: 560px) {
-  #map-page .exploration-dock { padding-left: 58px !important; justify-content: flex-start !important; flex-wrap: nowrap !important; overflow-x: auto !important; scrollbar-width: none; }
-  #map-page .exploration-dock::-webkit-scrollbar { display: none; }
-  #map-page .exploration-dock .activity-launcher { flex: 0 0 auto !important; padding: 8px 11px !important; }
-  #map-page .wallet-launcher .wallet-label { display: none !important; }
+  #campus-map .wallet-launcher .wallet-label { display: none; }
+  #campus-map .wallet-launcher { top: 6px; right: 6px; padding: 5px 6px 5px 9px; font-size: 12px; }
   .wallet-head { grid-template-columns: 1fr; padding-right: 30px; }
   .wallet-mini { width: 100%; }
   .wallet-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }

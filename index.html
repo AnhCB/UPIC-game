@@ -93,9 +93,24 @@
         <div class="map-layout">
           <div class="map-frame">
             <div class="exploration-dock" aria-label="Campus activities">
-              <button class="activity-launcher" id="daily-quest-open" type="button">🧭 Daily quests <span id="daily-quest-progress">0/3</span></button>
-              <button class="activity-launcher" id="treasure-open" type="button">✨ Treasures <span id="treasure-count">0/8</span></button>
-              <button class="activity-launcher" id="trivia-open" type="button">🧠 Campus trivia</button>
+              <div class="activity-dock-heading">
+                <strong>Campus activities</strong>
+              </div>
+              <button class="activity-launcher" id="daily-quest-open" type="button" aria-label="Open daily quests">
+                <span class="activity-icon" aria-hidden="true">🧭</span>
+                <span class="activity-button-copy"><strong>Daily quests</strong></span>
+                <span class="activity-count" id="daily-quest-progress">0/3</span>
+              </button>
+              <button class="activity-launcher" id="treasure-open" type="button" aria-label="Open hidden treasures">
+                <span class="activity-icon" aria-hidden="true">💎</span>
+                <span class="activity-button-copy"><strong>Treasures</strong></span>
+                <span class="activity-count" id="treasure-count">0/8</span>
+              </button>
+              <button class="activity-launcher" id="trivia-open" type="button" aria-label="Open campus trivia">
+                <span class="activity-icon" aria-hidden="true">🧠</span>
+                <span class="activity-button-copy"><strong>Campus trivia</strong></span>
+                <span class="activity-count">Q&amp;A</span>
+              </button>
             </div>
             <div class="campus-map" id="campus-map">
               <img class="campus-map-art" src="assets/campus-map-hd.png" alt="Illustrated UVic campus map with Ring Road and eight campus buildings">

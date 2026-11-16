@@ -229,12 +229,14 @@
 
   /* ---------- Wallet launcher + modal ---------- */
   const dock = document.querySelector(".exploration-dock");
-  const launcher = el("button", "activity-launcher wallet-launcher");
+  const launcher = el("button", "wallet-launcher");
   launcher.type = "button";
   launcher.id = "wallet-open";
   launcher.innerHTML = `👛<span class="wallet-label"> Campus Wallet</span> <span id="wallet-count">0/${total}</span>`;
   launcher.setAttribute("aria-label", "Open Campus Wallet");
-  if (dock) dock.prepend(launcher);
+  // The wallet button sits on the map itself (the activity strip above the map is hidden in v14.2+).
+  if (campusMap) campusMap.appendChild(launcher);
+  else if (dock) dock.prepend(launcher);
 
   const menuPanel = document.getElementById("menu-panel");
   if (menuPanel) {
