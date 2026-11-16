@@ -91,10 +91,6 @@
         image: `https://images.pexels.com/photos/${photoId}/pexels-photo-${photoId}.jpeg?auto=compress&cs=tinysrgb&w=900`,
         caption: captions[index]
       }));
-      const illustratedClues = (topic, captions) => captions.map((caption, index) => ({
-        image: `assets/clues/${topic}-${index + 1}.svg`,
-        caption
-      }));
       const buildings = [
         {
           level: 1, id: "mcpherson", name: "McPherson Library", icon: "📚", left: 68, top: 41, width: 21, height: 16, labelTop: 63,
@@ -106,7 +102,7 @@
         {
           level: 2, id: "cornett", name: "Cornett Building", icon: "🧠", left: 10, top: 38, width: 24, height: 16, labelTop: 62,
           answer: "mind",
-          clues: illustratedClues("mind", ["A brain and its thoughts", "A thinking face", "A bright idea", "Solving a problem", "The human brain", "A reflective expression", "An idea taking shape", "A problem-solving grid"]),
+          clues: clue([20186029, 8560800, 7428308, 39842863, 16771324, 15169174, 26934508, 8560857], ["Deep in thought", "Thinking carefully", "A thoughtful person", "Thinking and ideas", "A thoughtful expression", "A woman thinking", "A reflective portrait", "Thinking by a window"]),
           description: "The Cornett Building houses academic spaces used by departments in the humanities and social sciences. It is a place where students explore people, behaviour, communication, and ideas.",
           facts: ["Academic departments and classrooms", "Learning about people and ideas", "Teaching and student study"]
         },
@@ -148,7 +144,7 @@
         {
           level: 8, id: "cle", name: "Clearihue Building", icon: "🌎", left: 58, top: 20, width: 18, height: 18, labelTop: 68,
           answer: "language",
-          clues: illustratedClues("language", ["Letters and speech", "Languages around the world", "A dictionary", "Letters and alphabets", "A conversation", "A world of languages", "Word definitions", "Writing systems"]),
+          clues: clue([3747580, 33210883, 5408919, 14814047, 37825335, 11958995, 30535635, 40282961], ["Alphabet tiles", "Language learning app", "Foreign language notes", "Language study materials", "Writing in a notebook", "Practising letters", "Writing notes", "Learning the alphabet"]),
           description: "Clearihue is associated with humanities teaching at UVic, including language-related learning. Its classrooms and academic spaces support students studying languages, literature, and other humanities subjects.",
           facts: ["Humanities and language learning", "Classrooms and academic spaces", "Study across cultures and ideas"]
         }
@@ -269,7 +265,7 @@
       function openDailyQuests() {
         const content = document.createElement("div");
         content.className = "activity-modal-section";
-        const intro = activityText("p", "activity-intro", "Your daily checklist has three steps. First, select and visit two different buildings on the map. At a selected building, open Treasures and solve its bonus word. Then solve that building's main level to unlock its information and answer its Campus trivia question. Finish all three tasks to claim +1 hint. Your progress resets each day.");
+        const intro = activityText("p", "activity-intro", "Explore the campus, solve a treasure puzzle, and test what you know. Complete all three tasks to earn one hint.");
         const list = document.createElement("ul");
         list.className = "daily-quest-list modal-quest-list";
         const tasks = [
@@ -288,8 +284,7 @@
         claim.type = "button";
         claim.disabled = tasks.some(task => !task.done) || dailyQuestState.rewardClaimed;
         claim.addEventListener("click", claimDailyQuestReward);
-        const howTo = activityText("div", "activity-howto", "Where to find each task: choose building markers on the campus map → use the building panel to open its treasure puzzle or trivia. Trivia unlocks after that building's main level is solved.");
-        content.append(intro, howTo, list, progress, feedback, claim);
+        content.append(intro, list, progress, feedback, claim);
         openActivityModal("Daily exploration quests", "Refreshes every day", content);
       }
 
@@ -305,16 +300,18 @@
         treasureEntry = "";
         const content = document.createElement("div");
         content.className = "treasure-game";
-        content.append(activityText("p", "activity-intro", `A bonus puzzle for ${building.name}: all four illustrations point to one related word. Use the letter tiles to solve it. You earn +1 hint once per building (maximum 3 hints).`));
+        content.append(activityText("p", "activity-intro", `A tiny four-picture puzzle is hidden at ${building.name}. Look at the pictures and guess the word! Solve it to earn +1 hint.`));
         const pictureGrid = document.createElement("div");
         pictureGrid.className = "treasure-picture-grid";
-        (treasurePictureClues[building.id] || []).forEach(clueItem => {
+        building.clues.slice(4, 8).forEach((clueItem, index) => {
           const figure = document.createElement("figure");
-          figure.className = "treasure-clue-card treasure-illustration-card";
-          const illustration = activityText("span", "treasure-clue-illustration", clueItem.icon);
-          illustration.setAttribute("aria-hidden", "true");
-          const caption = activityText("figcaption", "treasure-clue-caption", clueItem.label);
-          figure.append(illustration, caption);
+          figure.className = "treasure-clue-card treasure-photo-card";
+          const img = document.createElement("img");
+          img.src = clueItem.image;
+          img.alt = clueItem.caption || `Treasure photo clue ${index + 1}`;
+          img.loading = "lazy";
+          const caption = activityText("figcaption", "treasure-clue-caption", `Clue ${index + 1}`);
+          figure.append(img, caption);
           pictureGrid.append(figure);
         });
         content.append(pictureGrid);
@@ -426,7 +423,7 @@
         const trivia = campusTrivia[building.id];
         const content = document.createElement("div");
         content.className = "trivia-modal-content";
-        content.append(activityText("p", "activity-intro", `Choose the best answer for ${building.name}. Answer correctly to complete the trivia part of today's quest. ${trivia.question}`));
+        content.append(activityText("p", "activity-intro", `${building.name}: ${trivia.question}`));
         const choices = document.createElement("div");
         choices.className = "trivia-choices";
         const feedback = activityText("p", "trivia-feedback", "");
@@ -873,6 +870,7 @@
           console.warn("U-pic could not clear saved progress; the map is reset for this session only.", error);
         }
         unlockedLevels.clear();
+        document.dispatchEvent(new CustomEvent("upic:reset"));
         exploredRewardBuildings.clear();
         foundTreasures.clear();
         dailyQuestState = { date: todayKey(), visited: [], treasureFound: false, triviaAnswered: false, rewardClaimed: false };
@@ -940,6 +938,7 @@
           mapNodes.appendChild(button);
         });
         updateProgress();
+        document.dispatchEvent(new CustomEvent("upic:maprender"));
       }
 
       function getAudioContext() {
@@ -1072,8 +1071,8 @@
           hints = Math.min(3, hints + 1);
           const earnedHint = hints > hintsBeforeReward;
           saveHintState();
-          playTone(880, 0.3);
           saveProgress();
+          document.dispatchEvent(new CustomEvent("upic:unlock", { detail: { building: activeBuilding } }));
           renderPuzzle();
           renderMap();
           selectedMapBuilding = activeBuilding;
@@ -1257,6 +1256,20 @@
         }
         if (buildingModal.classList.contains("open") || winModal.classList.contains("open") || settingsModal.classList.contains("open") || tourBackdrop.classList.contains("open")) return;
       });
+
+      // Small API used by wallet.js (Campus Wallet, grey map reveal, celebrations).
+      window.UPic = {
+        buildings,
+        isUnlocked: level => unlockedLevels.has(level),
+        unlockedCount: () => unlockedLevels.size,
+        effectsOn: () => audioPreferences.effects,
+        audio: () => getAudioContext(),
+        openBuilding,
+        openModal,
+        closeModal,
+        showPage,
+        closeMenu
+      };
 
       activeBuilding = buildings[0];
       userLetters = Array(answer().length).fill("");

@@ -41,10 +41,9 @@ These are the four additional photos used by the Swap Pictures button in each ro
 - Language (Clearihue): [jessica olivella](https://www.pexels.com/photo/close-up-of-writing-hands-in-classroom-setting-37825335/), [Serena Barbera](https://www.pexels.com/photo/a-kid-writing-on-a-notebook-11958995/), [Vitaly Gariev](https://www.pexels.com/photo/close-up-of-person-writing-in-notebook-30535635/), [Anil Sharma](https://www.pexels.com/photo/child-learning-with-alphabet-letters-hands-on-40282961/)
 
 
-## Version 14 update
+## Campus Wallet + grey map (added)
 
-- Replaced Level 2 (MIND) and Level 8 (LANGUAGE) clue sets with custom local vector illustrations. Each level has two distinct four-image sets for the swap-pictures feature.
-- Reworked the campus activity toolbar so it sits above the map instead of covering building markers. It now explains Daily Quests, Treasures, and Campus Trivia at a glance and adapts to smaller screens.
-- Reduced the map menu dropdown width and constrained its height for laptop and phone screens.
-- Added clearer instructions to the daily quest panel, including where to find each task and when trivia unlocks.
-- Treasure puzzles now use their matching four illustrated clue cards and visible captions, rather than reusing the main-level photos that did not match the treasure answer.
+- **Grey map:** the campus starts in greyscale. Each building you unlock blooms back into colour; unlock all 8 and the whole map turns colour with a "Campus complete" celebration.
+- **Campus Wallet:** every solved level adds a collectible map-piece card (cropped from the campus art) to the wallet. Open it from the 👛 button above the map or from the ⋯ menu. Tap a collected card to read that building's info. Locked pieces show blurred and grey.
+- **Celebration:** solving a puzzle plays a short fanfare, fires confetti, and deals the new card into the win popup. Back on the map, the card flies into the wallet before the building colours in. Sounds follow the existing Settings · Audio toggle; animations are skipped for players with "reduce motion" turned on.
+- **Files:** new `wallet.js` and `wallet.css`. `script.js` only gained a small `window.UPic` API and three events (`upic:unlock`, `upic:maprender`, `upic:reset`); `index.html` loads the two new files.
